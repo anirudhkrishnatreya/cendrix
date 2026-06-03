@@ -32,7 +32,11 @@ export function Navigation() {
     return () => window.removeEventListener('scroll', handler)
   }, [])
 
-  const isDarkHero = (pathname === '/security' || pathname === '/case-studies' || pathname === '/healthcare') && !scrolled
+  const cleanPath = (pathname || '')
+    .replace(/\/$/, '')
+    .replace(/\/index\.html$/, '')
+    .replace(/\.html$/, '')
+  const isDarkHero = (cleanPath === '/security' || cleanPath === '/case-studies' || cleanPath === '/healthcare') && !scrolled
 
   const linkClass = `px-4 py-2 text-sm font-medium rounded-lg transition-all flex items-center gap-1 ${isDarkHero
       ? 'text-slate-300 hover:text-white hover:bg-white/10'
