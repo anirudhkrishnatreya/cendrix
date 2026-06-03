@@ -3,6 +3,8 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { CheckCircle, Shield, Clock, Lock, ArrowRight } from 'lucide-react'
 
+const web3FormsAccessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY ?? ''
+
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false)
   const [form, setForm] = useState({
@@ -13,6 +15,11 @@ export default function ContactPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!web3FormsAccessKey) {
+      alert('Contact form is not configured yet. Please add NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY before deploying.')
+      return
+    }
+
     setIsSubmitting(true)
 
     try {
@@ -23,7 +30,7 @@ export default function ContactPage() {
           Accept: "application/json",
         },
         body: JSON.stringify({
-          access_key: "9e53c716-2513-4a1b-a009-e3e1734664ca",
+          access_key: web3FormsAccessKey,
           subject: "New Consultation Request from Cendrix Website",
           from_name: "Cendrix Website",
           ...form
